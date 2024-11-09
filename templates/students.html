@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Lista de Estudiantes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Aprobado</th>
+                <th>Nota</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alumno in alumnos %}
+            <tr>
+                <td>{{ alumno['id'] }}</td>
+                <td>{{ alumno['nombre'] }}</td>
+                <td>{{ alumno['apellido'] }}</td>
+                <td>{{ 'S\u00ed' if alumno['aprobado'] else 'No' }}</td>
+                <td>{{ alumno['nota'] }}</td>
+                <td>{{ alumno['fecha'] }}</td>
+                <td>
+                    <a href="{{ url_for('edit_alumno', alumno_id=alumno['id']) }}" class="btn btn-primary btn-sm">Editar</a>
+                    <form action="{{ url_for('delete_alumno', alumno_id=alumno['id']) }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('\u00bfEst\u00e1 seguro?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('create_alumno') }}" class="btn btn-success">Nuevo Estudiante</a>
+{% endblock %}
